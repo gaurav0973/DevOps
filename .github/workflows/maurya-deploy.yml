@@ -1,0 +1,27 @@
+# which branch to trigger the workflow on
+name: Deploy Node.js App to ExCloud Server
+on:
+  push:
+    branches:
+      - main
+
+# steps 
+jobs: 
+  deploy: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy on ExCloud Server
+        uses: appleboy/ssh-action@v1.0.3
+        with: 
+          host: 210.79.129.202
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/DevOps
+            git pull 
+            npm install
+            pm2 restart 0
+

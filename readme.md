@@ -109,58 +109,35 @@ ssh username@vps_ip_address
 ssh ubuntu@123.45.67.89
 ```
 
----
 
-## Useful Commands
+## 5. Deploying a Node.js Application
 
-### Check Current User
+1. Install Node.js and NPM on your VPS.
+- https://nodejs.org/en/download
+2. git clone
+3. npm install
+4. npm start
+5. security group -> open port 8000
 
-```bash
-whoami
-```
+Problem Here
+    - The application will stop when terminal is closed
+Solution
+    - Use process managers to keep the application running in the background
+    - Eg: PM2 (https://pm2.keymetrics.io/)
+        - install command
+        - run application using PM2
 
-### Show Current Directory
+## CI/CD
+Problem Statement 
+    - Every time we make changes to our code, we need to manually deploy it to the VPS
+    and run all those git pull, npm install and pm2 restart commands again and again
+Solution
+    - Use CI/CD tools to automate the deployment process
+    - Eg: 
+        - GitHub Actions
+        - Jenkins
+        - GitLab CI/CD
+        - CircleCI
+        - Travis CI
 
-```bash
-pwd
-```
 
-### List Files
-
-```bash
-ls
-```
-
-### List All Files (Including Hidden)
-
-```bash
-ls -a
-```
-
-### Navigate to Home Directory
-
-```bash
-cd ~
-```
-
----
-
-## SSH Authentication Flow
-
-```text
-Local Machine
-      │
-      │ (Private Key)
-      ▼
-SSH Client
-      │
-      ▼
-VPS Server
-      │
-      │ Checks Public Key
-      ▼
-authorized_keys
-      │
-      ▼
-Access Granted ✅
-```
