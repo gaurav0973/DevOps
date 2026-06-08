@@ -5,7 +5,7 @@ const PORT = 8000;
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'Welcome to DevOps In One Shot',
+        message: 'First CI/CD pipeline testing auto deployment',
         status: 'success'
     });
 });
