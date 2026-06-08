@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Deploy on ExCloud Server
-        uses: appleboy/ssh-action@latest
+        uses: appleboy/ssh-action@v1.2.5
         with: 
           host: 210.79.129.202
           username: ubuntu
