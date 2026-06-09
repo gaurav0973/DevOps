@@ -38,11 +38,15 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            cd /home/ubuntu/DevOps
-            git pull 
-            npm install
-            pm2 delete index || true
-            pm2 start index.js --name index
+            #kill existing container
+            sudo docker rm -f maurya-devops || true
+
+            # pull fresh image
+            sudo docker pull gaurav0973/maurya-devops
+
+            # Run docker run -d -p 80:8000  gaurav0973/maurya-devops
+            sudo docker run -d --restart unless-stopped -p 80:8000 --name maurya-devops gaurav0973/maurya-devops
+
+            # clean up dangling images
+            sudo docker image prune -f
 
