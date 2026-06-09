@@ -7,6 +7,7 @@ app.get('/', (req, res) => {
     res.json({
         message: "Attached with a domain name now : devops.campuscrush.site 🐋",
         peakDetailing: "SSL certificate is generated using Caddy server and the traffic is being proxied to this API service running on port 8000.",
+        knownIssue: "Docker container in not cleaning up properly",
         status: "success",
     });
 });
