@@ -139,5 +139,52 @@ Solution
         - GitLab CI/CD
         - CircleCI
         - Travis CI
+```YAML
+# which branch to trigger the workflow on
+name: Deploy Node.js App to ExCloud Server
+on:
+  push:
+    branches:
+      - main
+
+# steps 
+jobs: 
+  deploy: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy on ExCloud Server
+        uses: appleboy/ssh-action@v1.2.5
+        with: 
+          host: 210.79.129.202
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            cd /home/ubuntu/DevOps
+            git pull 
+            npm install
+            pm2 delete index || true
+            pm2 start index.js --name index
+
+```
+
+Problem with this approach
+    - If the applicatio has a lot of services like reddis, auth, kafka then managing all those services using ssh commands will be a nightmare
+Solution
+    - Using docker to containerasie the application
+
+
+## Docker
+Problem Statement
+    - Managing multiple services and their dependencies on the VPS can be complex and error-prone.
+Solution
+    - Docker allows you to containerize your application and its dependencies, making it easier to deploy and manage on the VPS.
+    - You can use Docker Compose to define and run multi-container applications, simplifying the management of services like Redis, Kafka, etc. 
+
+
 
 
