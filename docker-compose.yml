@@ -1,0 +1,20 @@
+services:
+  node-js-server:
+    image: gaurav0973/maurya-devops
+    deploy:
+      replicas: 3
+    networks:
+      - maurya-devops-internal
+
+  caddy:
+    image: caddy:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    networks:
+      - maurya-devops-internal
+
+networks:
+  maurya-devops-internal:
+    driver: bridge
