@@ -5,7 +5,7 @@ const PORT = 8000;
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'First CI/CD pipeline testing auto deployment: Docker Access token: Read, write and delete',
+        message: 'Docker Deployment 🐳🐋',
         status: 'success'
     });
 });
