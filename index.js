@@ -5,8 +5,8 @@ const PORT = 8000;
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'Docker Deployment 🐳🐋',
-        status: 'success'
+        message: "Attached with a domain name now : devops.campuscrush.site 🐋",
+        status: "success",
     });
 });
 
