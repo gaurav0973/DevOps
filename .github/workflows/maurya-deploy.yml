@@ -34,22 +34,18 @@ jobs:
       - name: Deploy on ExCloud Server
         uses: appleboy/ssh-action@v1.2.5
         with: 
-          host: 210.79.129.202
+          host: 210.79.128.91
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            # CD /home/ubuntu/DevOps
-            cd /home/ubuntu/DevOps
+            #kill existing container
+            sudo docker rm -f maurya-devops || true
 
-            # git pull 
-            git pull origin main
+            # pull fresh image
+            sudo docker pull gaurav0973/maurya-devops
 
-            # make sure to pull a fresh copy of gaurav0973/maurya-devops
-            sudo docker compose pull
+            # Run docker run -d -p 80:8000  gaurav0973/maurya-devops
+            sudo docker run -d --restart unless-stopped -p 80:8000 --name maurya-devops gaurav0973/maurya-devops
 
-            # docker compose up -d 
-            sudo docker compose up -d
-
-            # prune unused images
+            # clean up dangling images
             sudo docker image prune -f
-
