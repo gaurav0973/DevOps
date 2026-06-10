@@ -38,14 +38,10 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            #kill existing container
-            sudo docker rm -f maurya-devops || true
+            cd /home/ubuntu/DevOps
 
-            # pull fresh image
-            sudo docker pull gaurav0973/maurya-devops
+            sudo docker compose pull
 
-            # Run docker run -d -p 80:8000  gaurav0973/maurya-devops
-            sudo docker run -d --restart unless-stopped -p 80:8000 --name maurya-devops gaurav0973/maurya-devops
+            sudo docker compose up -d
 
-            # clean up dangling images
             sudo docker image prune -f
