@@ -1,16 +1,15 @@
-# which branch to trigger the workflow on
 name: Deploy Node.js App to ExCloud Server
+
 on:
   push:
     branches:
-      - main
+    - main
 
-# steps 
-jobs: 
-  deploy: 
+jobs:
+  deploy:
     runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout code
+    steps:
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -25,23 +24,26 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Docker Build and push
+      - name: Build and Push Docker Image
         run: |
-          docker build -t gaurav0973/maurya-devops .
-          docker push gaurav0973/maurya-devops
-        
+          docker build -t gaurav0973/maurya-devops:latest .
+          docker push gaurav0973/maurya-devops:latest
 
-      - name: Deploy on ExCloud Server
+      - name: Deploy on VPS
         uses: appleboy/ssh-action@v1.2.5
-        with: 
+        with:
           host: 210.79.128.91
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/DevOps
 
+            git fetch origin
+
+            git reset --hard origin/main
+
             sudo docker compose pull
 
-            sudo docker compose up -d
+            sudo docker compose up -d --force-recreate
 
             sudo docker image prune -f
