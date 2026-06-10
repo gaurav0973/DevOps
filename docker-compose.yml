@@ -16,7 +16,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
@@ -27,6 +27,7 @@ services:
 networks:
   maurya-devops-internal:
     driver: bridge
-  
+
 volumes:
   caddy_data:
+  caddy_config:
