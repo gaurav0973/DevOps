@@ -1,13 +1,14 @@
-name: Deploy Node.js App to ExCloud Server
+name: Deploy Nodejs code on ExCloud
 
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -18,32 +19,35 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set up QEMU
+      - name: QEMU
         uses: docker/setup-qemu-action@v4
 
-      - name: Set up Docker Buildx
+      - name: set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Build and Push Docker Image
+      - name: Docker Build and Push
         run: |
           docker build -t gaurav0973/maurya-devops:latest .
           docker push gaurav0973/maurya-devops:latest
 
-      - name: Deploy on VPS
-        uses: appleboy/ssh-action@v1.2.5
+      - name: Deploy on ExCloud
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: 210.79.128.91
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
+            # CD /home/ubuntu/DevOps
             cd /home/ubuntu/DevOps
 
-            git fetch origin
+            # git pull
+            git pull origin main
 
-            git reset --hard origin/main
-
+            # make sure to pull a fresh copy of code
             sudo docker compose pull
 
-            sudo docker compose up -d --force-recreate
+            # docker compose up -d
+            sudo docker compose up -d
 
+            # Clean up old/unused images
             sudo docker image prune -f

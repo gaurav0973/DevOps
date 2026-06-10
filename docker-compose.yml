@@ -1,31 +1,25 @@
 services:
-  node-js-server:
-    image: gaurav0973/maurya-devops
-    container_name: node-js-server
-    restart: unless-stopped
-    expose:
-      - "8000"
+  nodejs-server:
+    image: gaurav0973/maurya-devops:latest
+    deploy:
+      replicas: 5
     networks:
-      - maurya-devops-internal
+      - chaicode-internal
 
   caddy:
     image: caddy:latest
-    container_name: caddy
-    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
-      - ./caddyfile:/etc/caddy/Caddyfile:ro
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
-    depends_on:
-      - node-js-server
     networks:
-      - maurya-devops-internal
+      - chaicode-internal
 
 networks:
-  maurya-devops-internal:
+  chaicode-internal:
     driver: bridge
 
 volumes:

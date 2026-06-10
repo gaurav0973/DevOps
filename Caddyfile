@@ -1,0 +1,3 @@
+maurya.campuscrush.site {
+    reverse_proxy nodejs-server:8000
+}

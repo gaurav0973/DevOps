@@ -1,4 +1,0 @@
-maurya.campuscrush.site {
-    reverse_proxy node-js-server:8000
-}
-# chenges is not pr
